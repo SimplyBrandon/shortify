@@ -12,23 +12,23 @@ I have added a few extra features to enhance the project:
 - **Usage Tracking**: A 'uses' column in the database increments each time a shortened URL is accessed, allowing tracking of URL popularity.
 
 ## Installation
-#### 1. Clone the repository:
-    ```
+1. Clone the repository:
+    ```sh
     git clone https://github.com/SimplyBrandon/shortify.git
     cd shortify
     ```
-#### 2. Install dependencies:
-    ```
+2. Install dependencies:
+    ```sh
     composer install
     ```
-#### 3. Copy the `.env.example` file to `.env` and generate a new application key:
-    ```
+3. Copy the `.env.example` file to `.env` and generate a new application key:
+    ```sh
     cp .env.example .env
     php artisan key:generate
     ```
-#### 4. Update the `.env` file with your MySQL credentials and other necessary configurations (APP_URL, SHORT_URL_PATH, etc).
-#### 5. Run database migrations to create the necessary schema:
-    ```
+4. Update the `.env` file with your MySQL credentials and other necessary configurations (APP_URL, SHORT_URL_PATH, etc).
+5. Run database migrations to create the necessary schema:
+    ```sh
     php artisan migrate
     ```
 
