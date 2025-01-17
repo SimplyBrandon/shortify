@@ -48,7 +48,7 @@ class ShortUrlController extends Controller
         ], 200);
     }
 
-    public function redirect($alias): \Illuminate\Http\RedirectResponse
+    public function redirect($alias): \Illuminate\Http\RedirectResponse | \Illuminate\Http\JsonResponse
     {
         $decodedUrl = ShortUrlService::decode($alias);
 
