@@ -1,66 +1,65 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# URL Shortening Service
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project was created as part of the recruitment process for the position of Laravel Developer. The task was to create a URL shortening service using Laravel that provides the following functionality:
+- A `/encode` endpoint that accepts a URL and returns a shortened version of that URL.
+- A `/decode` endpoint that accepts a shortened URL alias and returns the original URL.
+- Both endpoints return JSON responses.
 
-## About Laravel
+## Additional Features
+I have added a few extra features to enhance the project:
+- **Persistent URLs**: URLs are stored in a MySQL database to reflect a real-world scenario.
+- **Configurable Redirection Route**: Users can be redirected to the original URL via a configurable route. By default, this is `/go/{alias}` but can be changed in the `.env` file.
+- **Usage Tracking**: A 'uses' column in the database increments each time a shortened URL is accessed, allowing tracking of URL popularity.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Installation
+#### 1. Clone the repository:
+    ```sh
+    git clone https://github.com/SimplyBrandon/shortify.git
+    cd shortify
+    ```
+#### 2. Install dependencies:
+    ```sh
+    composer install
+    ```
+#### 3. Copy the `.env.example` file to `.env` and generate a new application key:
+    ```sh
+    cp .env.example .env
+    php artisan key:generate
+    ```
+#### 4. Update the `.env` file with your MySQL credentials and other necessary configurations (APP_URL, SHORT_URL_PATH, etc).
+#### 5. Run database migrations to create the necessary schema:
+    ```sh
+    php artisan migrate
+    ```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Usage
+The service provides three main endpoints:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### `/encode`
+- **Method**: GET
+- **Parameters**:
+  - `url` (required): The original URL to be shortened.
+  - `alias` (optional): A custom alias for the shortened URL.
+- **Response**:
+  - On success: JSON response with a `short_url` key containing the shortened URL.
+  - On error: JSON response with an error message if the alias is already in use or the URL is invalid.
 
-## Learning Laravel
+### `/decode`
+- **Method**: GET
+- **Parameters**:
+  - `alias` (required): The alias of the shortened URL.
+- **Response**:
+  - On success: JSON response with a `original_url` key containing the original URL.
+  - On error: JSON response with a 404 status if the alias is not found.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### `/go/{alias}`
+- **Method**: GET
+- **Description**: Redirects the user to the original URL.
+- **Response**:
+  - On success: Redirects to the original URL.
+  - On error: Returns a 404 status if the alias is not found.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Running Tests
+To run the tests for this service, use the following command:
+```sh
+php artisan test
