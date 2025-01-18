@@ -7,7 +7,7 @@
 
         <div class="flex flex-col mt-20" v-else>
             <div class="flex flex-col md:flex-row md:items-center justify-between">
-                <h2 class="text-white text-2xl font-bold">{{ pagination?.total.toLocaleString() }} Shortened Link(s) Found</h2>
+                <h2 class="text-white text-2xl font-bold">Shortened Links</h2>
                 <div class="flex items-center relative">
                     <i class="bx bx-search text-gray-300 text-lg absolute left-4"></i>
                     <input v-model="query" @keydown.enter="search" type="text" class="bg-gray-800/20 outline-none px-12 py-3 text-white text-sm border border-b-2 w-full mt-2 md:mt-0 md:w-[300px] border-blue-900/20" placeholder="Search for a link (press enter)">
@@ -76,6 +76,11 @@
                     'bg-gray-800/20 text-gray-400 cursor-not-allowed border border-b-2 border-gray-800/50': pagination?.current_page === 1
                 }" class="py-1 px-4 transition ease duration-200 text-xl"><i class="bx bx-chevron-left relative"></i></button>
 
+                <div class="flex flex-col items-center">
+                    <h2 class="text-white text-xs">Page {{ pagination?.current_page }} of {{ pagination?.last_page }}</h2>
+                    <h2 class="text-gray-500 text-xs mt-1">{{ pagination?.total }} shortened link(s) <span v-if="searchedQuery">matching "{{ searchedQuery }}"</span></h2>
+                </div>
+
                 <button @click="nextPage" :class="{
                     'bg-blue-900/20 text-gray-200 hover:text-white border border-b-2 border-gray-800 hover:bg-blue-900/40 hover:border-blue-900/40': pagination?.current_page < pagination?.last_page,
                     'bg-gray-800/20 text-gray-400 cursor-not-allowed border border-b-2 border-gray-800/50': pagination?.current_page === pagination?.last_page
@@ -93,6 +98,7 @@
         data() {
             return {
                 query: '',
+                searchedQuery: null,
                 linkPage: 1,
                 perPage: 10,
 
@@ -106,6 +112,7 @@
             this.load();
 
             events.on('shortUrlCreated', () => {
+                this.query = '';
                 this.linkPage = 1;
                 this.load();
             });
@@ -131,6 +138,10 @@
                         }
                     });
                     this.pagination = response.data;
+
+                    if(this.searchedQuery !== this.query) {
+                        this.searchedQuery = this.query;
+                    }
                 } catch (e) {
                     console.error(e);
                 }

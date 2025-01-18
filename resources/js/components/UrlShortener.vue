@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col items-center justify-center relative">
-        <h2 class="bg-gradient-to-r from-pink-500 via-blue-500 to-blue-900 uppercase text-transparent bg-clip-text font-bold text-4xl inline-block">Shorten obnoxious URLs with ease</h2>
+        <h2 class="bg-gradient-to-r from-pink-500 via-blue-500 to-blue-900 uppercase text-transparent bg-clip-text font-bold text-6xl inline-block font-smooch tracking-wider">Shorten obnoxious URLs with ease</h2>
 
         <div class="flex flex-col w-full md:flex-row md:w-auto gap-6 mt-8">
             <div class="flex flex-col bg-gradient-to-r from-blue-800 via-blue-900 to-blue-900 p-[2px] rounded-lg md:w-[400px]">

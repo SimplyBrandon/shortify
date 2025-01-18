@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-roboto {
+    font-family: 'Roboto', sans-serif;
+}
+
+.font-doto {
+    font-family: 'Doto', sans-serif;
+}
+
+.font-kanit {
+    font-family: 'Kanit', sans-serif;
+}
+
+.font-smooch {
+    font-family: 'Smooch Sans', sans-serif;
+}
