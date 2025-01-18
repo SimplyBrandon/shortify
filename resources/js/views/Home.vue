@@ -3,7 +3,7 @@
         <div>
             <div class="max-w-[100rem] mx-auto px-6 py-12">
                 <div class="flex items-center justify-between">
-                    <h2 class="uppercase text-white font-bold text-3xl">Shortify</h2>
+                    <h2 class="uppercase text-white font-bold text-3xl">{{ appName }}</h2>
                 </div>
             </div>
         </div>
@@ -26,5 +26,10 @@
             UrlShortener,
             ShortUrlTable
         },
+        data() {
+            return {
+                appName: window.appName
+            }
+        }
     }
 </script>

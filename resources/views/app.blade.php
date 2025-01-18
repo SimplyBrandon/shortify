@@ -24,6 +24,7 @@
         <div id="app" class="h-full"></div>
 
         <script>
+            window.appName = @json($appName);
             window.shortUrlBase = @json($shortUrlBase);
         </script>
     </body>
