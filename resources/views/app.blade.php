@@ -4,8 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Shortify</title>
-
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -26,6 +24,8 @@
         <script>
             window.appName = @json($appName);
             window.shortUrlBase = @json($shortUrlBase);
+
+            document.title = window.appName + ' - Shorten links with ease';
         </script>
     </body>
 </html>
