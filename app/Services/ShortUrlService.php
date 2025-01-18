@@ -34,7 +34,7 @@ class ShortUrlService
         return $shortUrl;
     }
 
-    public static function generateRandomAlias()
+    public static function generateRandomAlias(): string
     {
         $alias = Str::random(6);
 

@@ -49,7 +49,7 @@ class ShortUrlController extends Controller
         ], 200);
     }
 
-    public function list(Request $request)
+    public function list(Request $request): \Illuminate\Http\JsonResponse
     {
         $shortUrls = ShortUrl::query();
 
