@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ShortUrl;
 use App\Services\ShortUrlService;
 use Illuminate\Http\Request;
 
@@ -46,6 +47,20 @@ class ShortUrlController extends Controller
         return response()->json([
             'original_url' => $decodedUrl->original_url
         ], 200);
+    }
+
+    public function list(Request $request)
+    {
+        $shortUrls = ShortUrl::query();
+
+        if($request->has('query') && !empty($request->input('query')))
+        {
+            $shortUrls->where('original_url', 'like', '%'.$request->input('query').'%');
+        }
+
+        $shortUrls->orderBy('created_at', 'desc');
+
+        return response()->json($shortUrls->paginate($request->input('limit', 10)), 200);
     }
 
     public function redirect($alias): \Illuminate\Http\RedirectResponse | \Illuminate\Http\JsonResponse
