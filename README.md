@@ -81,3 +81,9 @@ php artisan test
 - The technical test specified that the URLs did not need to be persistent, however to better reflect a real-world scenario for this type of service, I have made the URLs persistent in a MySQL database.
 - The local dev environment for this project that I used had the project accessible at http://shortify.test. Shortened links were generated at http://shortify.test/go/{alias}. This makes the short links... not very short. In a real-world scenario, the shortened links would be generated at a much shorter URL, such as http://sho.rt/{alias}.
 - The frontend for this project is quite basic, merely serving as a way to interact with the encode endpoint easily and view the shortened URLs.
+
+## Time Spent
+- 10-20m: Planning and researching (tinyurl.com, bit.ly)
+- 1h30m: Implementing technical test requirements
+- ~4h: Additional features & Vue.js frontend
+### Total: ~6h
