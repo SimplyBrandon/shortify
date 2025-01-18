@@ -12,6 +12,7 @@
                     <i class="bx bx-search text-gray-300 text-lg absolute left-4"></i>
                     <input v-model="query" @keydown.enter="search" type="text" class="bg-gray-800/20 outline-none px-12 py-3 text-white text-sm border border-b-2 w-full mt-2 md:mt-0 md:w-[300px] border-blue-900/20" placeholder="Search for a link (press enter)">
                     <i class="bx bx-loader-alt bx-spin text-gray-300 text-lg absolute right-4 cursor-pointer" v-if="searching"></i>
+                    <i @click="clearSearch" class="bx bx-x text-gray-300 text-lg absolute right-4 cursor-pointer" v-if="searchedQuery && !searching"></i>
                 </div>
             </div>
             <div class="flex flex-col overflow-x-auto">
@@ -26,10 +27,11 @@
                     </thead>
                     <tbody>
                         <tr v-if="pagination?.data.length === 0" class="bg-black/20 border border-gray-800 text-sm">
-                            <td class="py-4" colspan="4">
+                            <td class="py-12" colspan="4">
                                 <div class="flex flex-col items-center justify-center">
                                     <i class="bx bx-sad text-white text-5xl"></i>
-                                    <h2 class="text-white text-center mt-2">There are no shortened links... what a sad day!</h2>
+                                    <h2 class="text-white text-center mt-4" v-if="!searchedQuery">There are no shortened links... what a sad day!</h2>
+                                    <h2 class="text-white text-center mt-4" v-else>We couldn't find any matching shortened links... how sad!</h2>
                                 </div>
                             </td>
                         </tr>
@@ -43,7 +45,7 @@
                                         <h2 class="text-white">{{ link.original_url }}</h2>
                                         <i class="bx bx-clipboard text-gray-500 group-hover:text-white transition ease duration-200 text-lg"></i>
                                     </div>
-                                    <a :href="link.original_url" target="_blank" class="bg-gray-900 border border-b-2 border-blue-900/40 px-3 py-1 text-gray-500 hover:text-white "><i class="bx bx-link-external text-lg transition ease duration-200"></i></a>
+                                    <a :href="link.original_url" target="_blank" class="bg-gray-900 hover:bg-blue-900/10 border border-b-2 border-blue-900/40 px-3 py-1 text-gray-500 hover:text-white "><i class="bx bx-link-external text-lg transition ease duration-200"></i></a>
                                 </div>
                             </td>
                             <td class="py-1">
@@ -52,7 +54,7 @@
                                         <h2 class="text-white">{{ link.short_url }}</h2>
                                         <i class="bx bx-clipboard text-gray-500 group-hover:text-white transition ease duration-200 text-lg"></i>
                                     </div>
-                                    <a :href="link.short_url" target="_blank" class="bg-gray-900 border border-b-2 border-blue-900/40 px-3 py-1 text-gray-500 hover:text-white "><i class="bx bx-link-external text-lg transition ease duration-200"></i></a>
+                                    <a :href="link.short_url" target="_blank" class="bg-gray-900 hover:bg-blue-900/10 border border-b-2 border-blue-900/40 px-3 py-1 text-gray-500 hover:text-white "><i class="bx bx-link-external text-lg transition ease duration-200"></i></a>
                                 </div>
                             </td>
                             <td class="py-1 min-w-[200px]">
@@ -164,6 +166,10 @@
                 } catch (e) {
                     alert('Failed to copy to clipboard - typically due to an insecure context.');
                 }
+            },
+            clearSearch() {
+                this.query = '';
+                this.search();
             }
         }
     }

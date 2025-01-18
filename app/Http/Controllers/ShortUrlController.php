@@ -55,7 +55,7 @@ class ShortUrlController extends Controller
 
         if($request->has('query') && !empty($request->input('query')))
         {
-            $shortUrls->where('original_url', 'like', '%'.$request->input('query').'%');
+            $shortUrls->where('original_url', 'like', '%'.$request->input('query').'%')->orWhere('alias', 'like', '%'.$request->input('query').'%');
         }
 
         $shortUrls->orderBy('created_at', 'desc');

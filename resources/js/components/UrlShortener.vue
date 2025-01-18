@@ -43,8 +43,9 @@ import events from '../events';
             }
         },
         mounted() {
-            const shortUrlBaseWidth = this.$refs.shortUrlBase.offsetWidth;
-            this.$refs.shortUrlAliasInput.style.paddingLeft = shortUrlBaseWidth + 25 + 'px';
+            this.$nextTick(() => {
+                this.applyShortUrlBasePadding();
+            });
         },
         methods: {
             async shorten() {
@@ -92,6 +93,10 @@ import events from '../events';
                 } catch (e) {
                     return false;
                 }
+            },
+            applyShortUrlBasePadding() {
+                const shortUrlBaseWidth = this.$refs.shortUrlBase.offsetWidth;
+                this.$refs.shortUrlAliasInput.style.paddingLeft = shortUrlBaseWidth + 25 + 'px';
             }
         }
     }

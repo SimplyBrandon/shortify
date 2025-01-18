@@ -8,7 +8,7 @@ This project was created as part of the recruitment process for the position of 
 ## Additional Features
 I have added a few extra features to enhance the project:
 - **Persistent URLs**: URLs are stored in a MySQL database to reflect a real-world scenario.
-- **Configurable Redirection Route**: Users can be redirected to the original URL via a configurable route. By default, this is `/go/{alias}` but can be changed in the `.env` file.
+- **Configurable Redirection Route**: Users can be redirected to the original URL via a configurable route. By default, this is `/go/{alias}` but can be changed in the `.env` file. Set to `/` for root domain redirection.
 - **Usage Tracking**: A 'uses' column in the database increments each time a shortened URL is accessed, allowing tracking of URL popularity.
 - **Custom Alias**: Users can provide a custom alias for their shortened URL. If the alias is already in use, an error message is returned.
 - **Vue.js Frontend**: A simple Vue.js frontend is included which allows users to shorten URLs via a form and list the shortened URLs by recently created.
@@ -85,5 +85,5 @@ php artisan test
 ## Time Spent
 - 10-20m: Planning and researching (tinyurl.com, bit.ly)
 - 1h30m: Implementing technical test requirements
-- ~4h: Additional features & Vue.js frontend
-### Total: ~6h
+- ~5h: Additional features & Vue.js frontend
+### Total: ~7h
