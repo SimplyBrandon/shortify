@@ -17,7 +17,7 @@ class ShortUrlTest extends TestCase
 
     public function test_url_can_be_shortened_with_random_alias(): void
     {
-        $response = $this->getJson('/encode?url=' . $this->testUrl);
+        $response = $this->getJson('/api/encode?url=' . $this->testUrl);
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -31,7 +31,7 @@ class ShortUrlTest extends TestCase
 
     public function test_url_can_be_shortened_with_custom_alias(): void
     {
-        $response = $this->getJson('/encode?url=' . $this->testUrl . '&alias=' . $this->testAlias);
+        $response = $this->getJson('/api/encode?url=' . $this->testUrl . '&alias=' . $this->testAlias);
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -51,12 +51,11 @@ class ShortUrlTest extends TestCase
             'original_url' => $this->testUrl
         ]);
 
-        $response = $this->getJson('/encode?url=' . $this->testUrl . '&alias=' . $this->testAlias);
+        $response = $this->getJson('/api/encode?url=' . $this->testUrl . '&alias=' . $this->testAlias);
 
         $response->assertStatus(422);
         $response->assertJsonStructure([
-            'message',
-            'errors'
+            'error'
         ]);
     }
 
@@ -67,7 +66,7 @@ class ShortUrlTest extends TestCase
             'original_url' => $this->testUrl
         ]);
 
-        $response = $this->getJson('/decode?alias=' . $this->testAlias);
+        $response = $this->getJson('/api/decode?alias=' . $this->testAlias);
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -77,7 +76,7 @@ class ShortUrlTest extends TestCase
 
     public function test_invalid_url_alias_returns_error(): void
     {
-        $response = $this->getJson('/decode?alias=' . Str::random(20));
+        $response = $this->getJson('/api/decode?alias=' . Str::random(20));
 
         $response->assertStatus(404);
         $response->assertJsonStructure([
@@ -87,12 +86,11 @@ class ShortUrlTest extends TestCase
 
     public function test_invalid_url_returns_error(): void
     {
-        $response = $this->getJson('/encode?url=invalid-url');
+        $response = $this->getJson('/api/encode?url=invalid-url');
 
         $response->assertStatus(422);
         $response->assertJsonStructure([
-            'message',
-            'errors'
+            'error'
         ]);
     }
 

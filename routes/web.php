@@ -10,9 +10,4 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/encode', [ShortUrlController::class, 'encode']);
-Route::get('/decode', [ShortUrlController::class, 'decode']);
-
-Route::get('/links', [ShortUrlController::class, 'list']);
-
 Route::get(env('SHORT_URL_PATH', '/') . '{alias}', [ShortUrlController::class, 'redirect']);

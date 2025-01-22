@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import events from '../events';
+    import http from '../http';
+    import events from '../events';
 
     export default {
         name: 'UrlShortener',
@@ -54,13 +55,17 @@ import events from '../events';
                     return;
                 }
 
+                if(!this.url.includes('http://') && !this.url.includes('https://')) {
+                    this.url = 'http://' + this.url;
+                }
+
                 if(!this.validateUrl()) {
                     this.showErrorMessage('URL is invalid');
                     return;
                 }
 
                 try {
-                    const response = await axios.get('/encode', {
+                    const response = await http.get('/encode', {
                         params: {
                             url: this.url,
                             alias: this.alias
@@ -72,10 +77,10 @@ import events from '../events';
                         this.url = '';
                         this.alias = '';
                     } else {
-                        this.showErrorMessage(response.data.message);
+                        this.showErrorMessage(response.data.error);
                     }
                 } catch (e) {
-                    this.showErrorMessage(e.response.data.message);
+                    this.showErrorMessage(e.response.data.error);
                 }
             },
             showErrorMessage(error) {
@@ -87,6 +92,8 @@ import events from '../events';
                 }, 5000);
             },
             validateUrl() {
+                console.log(this.url);
+
                 try {
                     new URL(this.url);
                     return true;

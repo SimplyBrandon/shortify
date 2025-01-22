@@ -74,18 +74,18 @@
 
             <div class="flex items-center justify-between mt-4">
                 <button @click="prevPage" :class="{
-                    'bg-blue-900/20 text-gray-200 hover:text-white border border-b-2 border-gray-800 hover:bg-blue-900/40 hover:border-blue-900/40': pagination?.current_page > 1,
-                    'bg-gray-800/20 text-gray-400 cursor-not-allowed border border-b-2 border-gray-800/50': pagination?.current_page === 1
+                    'bg-blue-900/20 text-gray-200 hover:text-white border border-b-2 border-gray-800 hover:bg-blue-900/40 hover:border-blue-900/40': pagination?.meta.current_page > 1,
+                    'bg-gray-800/20 text-gray-400 cursor-not-allowed border border-b-2 border-gray-800/50': pagination?.meta.current_page === 1
                 }" class="py-1 px-4 transition ease duration-200 text-xl"><i class="bx bx-chevron-left relative"></i></button>
 
                 <div class="flex flex-col items-center">
-                    <h2 class="text-white text-xs">Page {{ pagination?.current_page }} of {{ pagination?.last_page }}</h2>
-                    <h2 class="text-gray-500 text-xs mt-1">{{ pagination?.total }} shortened link(s) <span v-if="searchedQuery">matching "{{ searchedQuery }}"</span></h2>
+                    <h2 class="text-white text-xs">Page {{ pagination?.meta.current_page }} of {{ pagination?.meta.last_page }}</h2>
+                    <h2 class="text-gray-500 text-xs mt-1">{{ pagination?.meta.total }} shortened link(s) <span v-if="searchedQuery">matching "{{ searchedQuery }}"</span></h2>
                 </div>
 
                 <button @click="nextPage" :class="{
-                    'bg-blue-900/20 text-gray-200 hover:text-white border border-b-2 border-gray-800 hover:bg-blue-900/40 hover:border-blue-900/40': pagination?.current_page < pagination?.last_page,
-                    'bg-gray-800/20 text-gray-400 cursor-not-allowed border border-b-2 border-gray-800/50': pagination?.current_page === pagination?.last_page
+                    'bg-blue-900/20 text-gray-200 hover:text-white border border-b-2 border-gray-800 hover:bg-blue-900/40 hover:border-blue-900/40': pagination?.meta.current_page < pagination?.meta.last_page,
+                    'bg-gray-800/20 text-gray-400 cursor-not-allowed border border-b-2 border-gray-800/50': pagination?.meta.current_page === pagination?.meta.last_page
                 }" class="py-1 px-4 transition ease duration-200 text-xl"><i class="bx bx-chevron-right relative"></i></button>
             </div>
         </div>
@@ -94,6 +94,7 @@
 
 <script>
     import events from '../events';
+    import http from '../http';
 
     export default {
         name: 'ShortUrlTable',
@@ -132,7 +133,7 @@
             },
             async fetchLinks() {
                 try {
-                    const response = await axios.get('/links', {
+                    const response = await http.get('links', {
                         params: {
                             page: this.linkPage,
                             limit: this.perPage,
@@ -149,13 +150,13 @@
                 }
             },
             nextPage() {
-                if(this.pagination.current_page < this.pagination.last_page) {
+                if(this.pagination.meta.current_page < this.pagination.meta.last_page) {
                     this.linkPage++;
                     this.fetchLinks();
                 }
             },
             prevPage() {
-                if(this.pagination.current_page > 1) {
+                if(this.pagination.meta.current_page > 1) {
                     this.linkPage--;
                     this.fetchLinks();
                 }

@@ -3,31 +3,41 @@
 namespace App\Services;
 
 use App\Models\ShortUrl;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ShortUrlService
 {
     public static function encode(string $url, string $alias = null): ShortUrl
     {
-        if(!$alias)
-        {
+        if(!$alias) {
             $alias = self::generateRandomAlias();
         }
 
-        $encodedUrl = ShortUrl::create([
-            'original_url' => $url,
-            'alias' => $alias
-        ]);
+        try {
+            $encodedUrl = ShortUrl::create([
+                'original_url' => $url,
+                'alias' => $alias
+            ]);
+        } catch (\Exception $e) {
+            Log::error('ShortUrlService@encode: ', $e->getMessage());
+            return null;
+        }
 
         return $encodedUrl;
     }
 
     public static function decode(string $alias): ?ShortUrl
     {
-        $shortUrl = ShortUrl::where('alias', $alias)->first();
+        try {
+            $shortUrl = ShortUrl::where('alias', $alias)->first();
+        } catch (ModelNotFoundException $e) {
+            Log::error('ShortUrlService@decode: ', $e->getMessage());
+            return null;
+        }
 
-        if(!$shortUrl)
-        {
+        if(!$shortUrl) {
             return null;
         }
 
@@ -38,8 +48,7 @@ class ShortUrlService
     {
         $alias = Str::random(6);
 
-        while(ShortUrl::where('alias', $alias)->exists())
-        {
+        while(ShortUrl::where('alias', $alias)->exists()) {
             $alias = Str::random(6);
         }
 
