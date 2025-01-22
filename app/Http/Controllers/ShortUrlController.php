@@ -12,6 +12,10 @@ class ShortUrlController extends Controller
 {
     public function encode(Request $request): \Illuminate\Http\JsonResponse
     {
+        if(!str_contains($request->input('url'), 'http://') && !str_contains($request->input('url'), 'https://')) {
+            $request->merge(['url' => 'http://' . $request->input('url')]);
+        }
+
         $validation = Validator::make($request->only(['url', 'alias']), [
             'url' => 'required|url',
             'alias' => 'nullable|alpha_num|unique:short_urls,alias',

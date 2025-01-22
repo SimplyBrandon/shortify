@@ -165,7 +165,20 @@
                 try {
                     navigator.clipboard.writeText(text);
                 } catch (e) {
-                    alert('Failed to copy to clipboard - typically due to an insecure context.');
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    textArea.style.position = 'fixed';  // Avoid scrolling to bottom
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+
+                    try {
+                        document.execCommand('copy');
+                    } catch (err) {
+                        alert('Failed to copy text to clipboard');
+                    }
+
+                    document.body.removeChild(textArea);
                 }
             },
             clearSearch() {
